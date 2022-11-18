@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mysql"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
@@ -10,13 +10,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model ApiClient {
-  id           Int      @id @default(autoincrement())
-  clientName   String   @map("client_name") @db.VarChar(50)
-  clientSecret String   @map("client_secret") @db.VarChar(250)
-  clientKey    String   @map("client_key") @db.VarChar(50)
-  dateCreated  DateTime @default(now()) @map("date_created") @db.Timestamp(3)
-  dateUpdated  DateTime @updatedAt @map("date_updated") @db.Timestamp(3)
+model Signup {
+  id          Int      @id @default(autoincrement())
+  username    String   @map("username") @db.VarChar(50) @unique
+  password    String   @map("password") @db.VarChar(50)  
+  fullName    String   @map("full_name") @db.VarChar(50)
+  sex         String   @map("sex") @db.VarChar(50) 
+  email       String   @map("email") @db.VarChar(50) @unique
+  dateCreated DateTime @default(now()) @map("date_created") @db.Timestamp(3)
 
-  @@map("api_client")
+  @@map("signup")
 }
