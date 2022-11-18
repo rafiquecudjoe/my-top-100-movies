@@ -15,9 +15,9 @@ CREATE TABLE "signup" (
 CREATE TABLE "Movies" (
     "id" SERIAL NOT NULL,
     "adult" BOOLEAN NOT NULL,
-    "original_language" VARCHAR(50) NOT NULL,
-    "original_title" VARCHAR(50) NOT NULL,
-    "overview" VARCHAR(1000) NOT NULL,
+    "original_language" VARCHAR(500) NOT NULL,
+    "original_title" VARCHAR(500) NOT NULL,
+    "overview" VARCHAR(5000) NOT NULL,
     "release_date" DATE NOT NULL,
     "title" VARCHAR(500) NOT NULL,
     "date_created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
