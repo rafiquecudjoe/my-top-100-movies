@@ -12,12 +12,24 @@ generator client {
 
 model Signup {
   id          Int      @id @default(autoincrement())
-  username    String   @map("username") @db.VarChar(50) @unique
-  password    String   @map("password") @db.VarChar(50)  
+  username    String   @unique @map("username") @db.VarChar(50)
+  password    String   @map("password") @db.VarChar(50)
   fullName    String   @map("full_name") @db.VarChar(50)
-  sex         String   @map("sex") @db.VarChar(50) 
-  email       String   @map("email") @db.VarChar(50) @unique
+  sex         String   @map("sex") @db.VarChar(50)
+  email       String   @unique @map("email") @db.VarChar(50)
   dateCreated DateTime @default(now()) @map("date_created") @db.Timestamp(3)
 
   @@map("signup")
+}
+
+model Movies {
+  id               Int      @id @default(autoincrement())
+  adult            Boolean  @map("adult") @db.Boolean
+  originalLanguage String   @map("original_language") @db.VarChar(50)
+  originalTitle    String   @map("original_title") @db.VarChar(50)
+  overview         String   @map("overview") @db.VarChar(1000)
+  releaseDate      DateTime @map("release_date") @db.Date
+  title            String   @map("title") @db.VarChar(500)
+  dateCreated      DateTime @default(now()) @map("date_created") @db.Timestamp(3)
+  dateUpdated      DateTime @updatedAt @map("date_updated") @db.Timestamp(3)
 }
