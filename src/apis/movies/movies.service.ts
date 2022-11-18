@@ -17,11 +17,10 @@ export class MoviesService {
   ) { }
   async addMovie(createMovieDto: CreateMoviesDto): Promise<ResponseWithData> {
     try {
-      console.log('test')
       // validate payload
       const validationResults = await this.moviesValidator.validateCreateMovie(createMovieDto);
       if (validationResults.status !== HttpStatus.OK) return validationResults;
-      console.log('test2')
+      
       // save movie
       const data: Movies = await this.moviesRepository.saveMovie(createMovieDto);
 
