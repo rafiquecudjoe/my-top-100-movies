@@ -25,9 +25,9 @@ model Signup {
 model Movies {
   id               Int      @id @default(autoincrement())
   adult            Boolean  @map("adult") @db.Boolean
-  originalLanguage String   @map("original_language") @db.VarChar(50)
-  originalTitle    String   @map("original_title") @db.VarChar(50)
-  overview         String   @map("overview") @db.VarChar(1000)
+  originalLanguage String   @map("original_language") @db.VarChar(500)
+  originalTitle    String   @map("original_title") @db.VarChar(500)
+  overview         String   @map("overview") @db.VarChar(5000)
   releaseDate      DateTime @map("release_date") @db.Date
   title            String   @map("title") @db.VarChar(500)
   dateCreated      DateTime @default(now()) @map("date_created") @db.Timestamp(3)
