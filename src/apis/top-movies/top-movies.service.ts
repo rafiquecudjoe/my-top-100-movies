@@ -38,7 +38,7 @@ export class TopMoviesService {
   async retrieveTopMovies(userId:number): Promise<ResponseWithData> {
     try {
       // save movie review
-      const data: TopMovies[] = await this.topMoviesRepository.retrieveTopMovies(userId);
+      const data: TopMovies[] = await this.topMoviesRepository.retrieveTopMoviesForAUser(userId);
 
       if (data.length === 0) return Response.withoutData(HttpStatus.NOT_FOUND, "No movies found");
 

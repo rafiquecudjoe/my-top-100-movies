@@ -4,7 +4,7 @@ import { JoiValidator } from '../../utils/joi.validator';
 import { Response } from '../../common/response';
 import * as joi from 'joi';
 import { CreateTopMovieDto} from './dto/top-movie.dto';
-import { TopMovies } from '@prisma/client';
+import { Movies, TopMovies } from '@prisma/client';
 import { TopMoviesRepository } from './top-movies.repository';
 import { MoviesRepository } from '../movies/movies.repository';
 
@@ -30,12 +30,11 @@ export class TopMoviesValidator {
                 if (joiValidationResults) return resolve(Response.withoutData(HttpStatus.BAD_REQUEST, joiValidationResults));
 
                 // check if movie exists
-                const foundMovie: TopMovies = await this.moviesRepository.retrieveMovieById(params.movieId);
-                if (!foundMovie)
-                    return resolve(Response.withoutData(HttpStatus.NOT_FOUND, 'Movie does not exist in movie database'));
+                const foundMovie: Movies = await this.moviesRepository.retrieveMovieById(params.movieId);
+                if (!foundMovie)return resolve(Response.withoutData(HttpStatus.NOT_FOUND, 'Movie does not exist in movie database'));
 
                 // check for duplicate top movies for user
-                const foundTopMovie: TopMovies[] = await this.topMoviesRepository.retrieveTopMovies(userId);
+                const foundTopMovie: TopMovies[] = await this.topMoviesRepository.retrieveTopMovies(userId,params.movieId);
 
                 if (foundTopMovie.length > 0)
                     return resolve(Response.withoutData(HttpStatus.CONFLICT, 'This movie already exists in your top movies'));
