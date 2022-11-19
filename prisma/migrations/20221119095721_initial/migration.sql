@@ -12,7 +12,7 @@ CREATE TABLE "signup" (
 );
 
 -- CreateTable
-CREATE TABLE "Movies" (
+CREATE TABLE "movies" (
     "id" SERIAL NOT NULL,
     "adult" BOOLEAN NOT NULL,
     "original_language" VARCHAR(500) NOT NULL,
@@ -23,7 +23,17 @@ CREATE TABLE "Movies" (
     "date_created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "date_updated" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Movies_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "movies_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "top_movies" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "top_movie_id" INTEGER NOT NULL,
+    "rank" INTEGER NOT NULL,
+
+    CONSTRAINT "top_movies_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
