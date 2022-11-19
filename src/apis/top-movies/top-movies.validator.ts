@@ -14,13 +14,13 @@ export class TopMoviesValidator {
         private readonly moviesRepository: MoviesRepository
     ) { }
 
-    validateAddTopMovie(params: CreateTopMovieDto,userId:number): Promise<ResponseWithoutData> {
+    validateAddTopMovie(params: CreateTopMovieDto): Promise<ResponseWithoutData> {
         return new Promise(async (resolve, reject) => {
             try {
                 // joi validation
                 const joiSchema = joi.object({
-                    movieId: joi.number().required().label('Top Movie Id'),
-                    rank: joi.number().required().label('Title'),
+                    movieId: joi.number().required().label('MovieId'),
+                    rank: joi.number().positive().greater(0).required().label('Rank'),
                     favourite: joi.boolean().required().label('Favourite'),
                 });
 
@@ -32,13 +32,13 @@ export class TopMoviesValidator {
                 // check if movie exists
                 const foundMovie: TopMovies = await this.moviesRepository.retrieveMovieById(params.movieId);
                 if (!foundMovie)
-                    return resolve(Response.withoutData(HttpStatus.NOT_FOUND, 'Movie does not exist'));
+                    return resolve(Response.withoutData(HttpStatus.NOT_FOUND, 'Movie does not exist in movie database'));
 
                 // check for duplicate top movies
-                const foundTopMovie :TopMovies = await this.topMoviesRepository.retrieveTopMovies(params.movieId);
+                const foundTopMovie: TopMovies[] = await this.topMoviesRepository.retrieveTopMovies(params.movieId);
 
-                if (foundTopMovie)
-                    return resolve(Response.withoutData(HttpStatus.CONFLICT, 'This movie already exists'));
+                if (foundTopMovie.length > 0)
+                    return resolve(Response.withoutData(HttpStatus.CONFLICT, 'This movie already exists in your top movies'));
 
                 // success
                 resolve(Response.withoutData(HttpStatus.OK, 'Passed'));

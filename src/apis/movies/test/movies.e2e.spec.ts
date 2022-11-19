@@ -4,7 +4,7 @@ import * as supertest from 'supertest';
 import { MoviesModule } from '../movies.module';
 import { MoviesRepository } from '../movies.repository';
 
-describe('ApiClientController', () => {
+describe('Testing Movies Controller', () => {
     let app: INestApplication;
 
     beforeAll(async () => {
@@ -38,7 +38,7 @@ describe('ApiClientController', () => {
             expect(response.body.message).toEqual('Original Language is not allowed to be empty');
         });
 
-        it('checks if client details are generated successfully', async () => {
+        it('checks if movie details were successfully saved', async () => {
             const requestBody = {
                 adult: true,
                 originalLanguage: "en",

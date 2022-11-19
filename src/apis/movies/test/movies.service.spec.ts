@@ -4,7 +4,7 @@ import { MoviesService } from '../movies.service';
 import { MoviesRepository } from '../movies.repository';
 import { MoviesValidator } from '../movies.validator';
 
-describe('Testing ApiClientService', () => {
+describe('Testing Movies Service', () => {
     let service: MoviesService;
 
  

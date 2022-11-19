@@ -4,7 +4,7 @@ import * as supertest from 'supertest';
 import { AuthModule } from '../auth.module';
 import { AuthRepository } from '../auth.repository';
 
-describe('ApiClientController', () => {
+describe('Testing Auth Controller', () => {
     let app: INestApplication;
 
     beforeAll(async () => {
