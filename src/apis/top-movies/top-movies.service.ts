@@ -20,7 +20,7 @@ export class TopMoviesService {
   async addTopMovie(createTopMovieDto: CreateTopMovieDto,userId:number): Promise<ResponseWithoutData> {
     try {
       // validate payload
-      const validationResults = await this.topMoviesValidator.validateAddTopMovie(createTopMovieDto,userId);
+      const validationResults = await this.topMoviesValidator.validateAddTopMovie(createTopMovieDto);
       if (validationResults.status !== HttpStatus.OK) return validationResults;
 
       // save top movie
@@ -48,7 +48,8 @@ export class TopMoviesService {
         const movie = await this.moviesRepository.retrieveMovieById(data[i].topMovieId);
         // add rank to movie
         movie.rank = data[i].rank;
-
+        
+        // push to movies array
         movies.push(movie);
       }
 

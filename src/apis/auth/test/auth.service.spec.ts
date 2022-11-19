@@ -4,7 +4,7 @@ import { AuthService } from '../auth.service';
 import { AuthRepository } from '../auth.repository';
 import { AuthValidator } from '../../auth/auth.validator';
 
-describe('Testing ApiClientService', () => {
+describe('Testing Auth Service', () => {
     let service: AuthService;
 
     beforeEach(async () => {
@@ -23,7 +23,7 @@ describe('Testing ApiClientService', () => {
         expect(service).toBeDefined();
     });
 
-    it('should check if client name is empty', async () => {
+    it('should check if email is empty', async () => {
         const data: ResponseWithData = await service.createUser({
             email: '',
             username: "rafiqueTest",
@@ -35,7 +35,7 @@ describe('Testing ApiClientService', () => {
         expect(data.message).toEqual('Email is not allowed to be empty');
     });
 
-    it('should save client details successfully', async () => {
+    it('should save signup details successfully', async () => {
         const data: ResponseWithData = await service.createUser({
             email: 'rasgalazy6',
             username: "rafiqueTest",
@@ -47,7 +47,7 @@ describe('Testing ApiClientService', () => {
         expect(data.message).toEqual("Signup Successfull");
     });
 
-    it('should not generate duplicate key for one client', async () => {
+    it('should not save duplicate details for a user', async () => {
         const data: ResponseWithData = await service.createUser({
             email: 'rasgalazy6',
             username: "rafiqueTest",
