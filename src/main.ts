@@ -7,7 +7,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle("My Top 100 Movies")
-    .setDescription("Application that let users set their 100 movies")
+    .setDescription("Application that let users set their top 100 movies")
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
