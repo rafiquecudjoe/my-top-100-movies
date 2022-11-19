@@ -14,7 +14,7 @@ export class TopMoviesValidator {
         private readonly moviesRepository: MoviesRepository
     ) { }
 
-    validateAddTopMovie(params: CreateTopMovieDto): Promise<ResponseWithoutData> {
+    validateAddTopMovie(params: CreateTopMovieDto,userId:number): Promise<ResponseWithoutData> {
         return new Promise(async (resolve, reject) => {
             try {
                 // joi validation
@@ -34,8 +34,8 @@ export class TopMoviesValidator {
                 if (!foundMovie)
                     return resolve(Response.withoutData(HttpStatus.NOT_FOUND, 'Movie does not exist in movie database'));
 
-                // check for duplicate top movies
-                const foundTopMovie: TopMovies[] = await this.topMoviesRepository.retrieveTopMovies(params.movieId);
+                // check for duplicate top movies for user
+                const foundTopMovie: TopMovies[] = await this.topMoviesRepository.retrieveTopMovies(userId);
 
                 if (foundTopMovie.length > 0)
                     return resolve(Response.withoutData(HttpStatus.CONFLICT, 'This movie already exists in your top movies'));

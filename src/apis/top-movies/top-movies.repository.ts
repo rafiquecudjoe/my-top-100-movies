@@ -25,13 +25,13 @@ export class TopMoviesRepository implements ITopMoviesRepository {
         });
     }
 
-    retrieveTopMovies(movieId: number): Promise<any> {
+    retrieveTopMovies(userId: number): Promise<any> {
         return new Promise(async (resolve, reject) => {
             try {
                 // retrieve top movie
                 const result = await prisma.topMovies.findMany({
                     where: {
-                        topMovieId: movieId,
+                        topMovieId: Number(userId),
                     }
                 });
                 // success
