@@ -35,6 +35,7 @@ export class MoviesService {
 
   async retrieveAllMovies(): Promise<ResponseWithData> {
     try {
+      console.log("teststst1")
       // save movie
       const data: Movies[] = await this.moviesRepository.retrieveAllMovies();
 

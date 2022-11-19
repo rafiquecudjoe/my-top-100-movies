@@ -3,7 +3,7 @@ import { ResponseWithoutData } from '../../common/entities/response.entity';
 import { JoiValidator } from '../../utils/joi.validator';
 import { Response } from '../../common/response';
 import * as joi from 'joi';
-import { CreateMoviesDto, UpdateMoviesDto} from './dto/movies.dto';
+import { CreateMoviesDto, UpdateMoviesDto } from './dto/movies.dto';
 import { MoviesRepository } from './movies.repository';;
 import { Movies } from '@prisma/client';
 
@@ -13,6 +13,7 @@ export class MoviesValidator {
 
     validateCreateMovie(params: CreateMoviesDto): Promise<ResponseWithoutData> {
         return new Promise(async (resolve, reject) => {
+            console.log("testststs")
             try {
                 // joi validation
                 const joiSchema = joi.object({
@@ -21,16 +22,21 @@ export class MoviesValidator {
                     title: joi.string().required().label('Title'),
                     overview: joi.string().required().label('Overview'),
                     originalTitle: joi.string().required().label('Original Title'),
-                    releaseDate: joi.string().required().label('Release Date'),
+                    releaseDate: joi.date().required().label('Release Date'),
 
                 });
                 const joiValidationResults = JoiValidator.validate(joiSchema, params);
 
                 // check the results from joi validation
                 if (joiValidationResults) return resolve(Response.withoutData(HttpStatus.BAD_REQUEST, joiValidationResults));
+                console.log("hellooo")
+                // check if date submitted was the right format
+                const isDate = new Date(params.releaseDate)
+
+                console.log("isDate:", isDate)
 
                 // check for duplicate movies
-                const foundMovie: Movies = await this.moviesRepository.retrieveMovieByTitleAndReleaseDate(params.title,params.releaseDate);
+                const foundMovie: Movies = await this.moviesRepository.retrieveMovieByTitleAndReleaseDate(params.title, params.releaseDate);
                 if (foundMovie)
                     return resolve(Response.withoutData(HttpStatus.CONFLICT, 'A movie with this title and Release date already exists'));
 
@@ -42,7 +48,7 @@ export class MoviesValidator {
         });
     }
 
-    validateUpdateMovie(params: UpdateMoviesDto,movieId:number): Promise<ResponseWithoutData> {
+    validateUpdateMovie(params: UpdateMoviesDto, movieId: number): Promise<ResponseWithoutData> {
         return new Promise(async (resolve, reject) => {
             try {
                 // joi validation
