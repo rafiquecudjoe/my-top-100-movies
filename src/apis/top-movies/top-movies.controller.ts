@@ -21,7 +21,7 @@ export class TopMoviesController {
   @Post('/')
   @ApiOperation({
     summary:
-      'Used to add a top movie',
+      'Used to add a top movie for a user',
   })
   @ApiCreatedResponse({ description: 'Top Movie successfully added', type: ResponseWithData, })
   @ApiBadRequestResponse({ description: 'Bad Request: Validation error', type: ResponseWithoutData })
@@ -45,7 +45,7 @@ export class TopMoviesController {
   @Get('')
   @ApiOperation({
     summary:
-      'Used to Retrieve all movies',
+      'Used to Retrieve Top movies for a user',
   })
   @ApiCreatedResponse({ description: 'Movies Retrieved Successfully', type: ResponseWithData })
   @ApiInternalServerErrorResponse({ description: 'Internal server error', type: ResponseWithoutData })

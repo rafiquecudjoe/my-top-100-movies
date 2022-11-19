@@ -6,10 +6,13 @@ import * as joi from 'joi';
 import { CreateTopMovieDto} from './dto/top-movie.dto';
 import { TopMovies } from '@prisma/client';
 import { TopMoviesRepository } from './top-movies.repository';
+import { MoviesRepository } from '../movies/movies.repository';
 
 @Injectable()
 export class TopMoviesValidator {
-    constructor(private readonly topMoviesRepository: TopMoviesRepository) { }
+    constructor(private readonly topMoviesRepository: TopMoviesRepository,
+        private readonly moviesRepository: MoviesRepository
+    ) { }
 
     validateAddTopMovie(params: CreateTopMovieDto,userId:number): Promise<ResponseWithoutData> {
         return new Promise(async (resolve, reject) => {
@@ -26,10 +29,15 @@ export class TopMoviesValidator {
                 // check the results from joi validation
                 if (joiValidationResults) return resolve(Response.withoutData(HttpStatus.BAD_REQUEST, joiValidationResults));
 
-                // check for duplicate top movies
-                const foundMovie: TopMovies[] = await this.topMoviesRepository.retrieveTopMovies(params.movieId);
+                // check if movie exists
+                const foundMovie: TopMovies = await this.moviesRepository.retrieveMovieById(params.movieId);
+                if (!foundMovie)
+                    return resolve(Response.withoutData(HttpStatus.NOT_FOUND, 'Movie does not exist'));
 
-                if (foundMovie.length > 0)
+                // check for duplicate top movies
+                const foundTopMovie :TopMovies = await this.topMoviesRepository.retrieveTopMovies(params.movieId);
+
+                if (foundTopMovie)
                     return resolve(Response.withoutData(HttpStatus.CONFLICT, 'This movie already exists'));
 
                 // success
