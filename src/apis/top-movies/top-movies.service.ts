@@ -56,7 +56,7 @@ export class TopMoviesService {
       movies.sort((a, b) => a.rank - b.rank);
 
       // success
-      return Response.withData(HttpStatus.OK, "Movies Retrieved Successfully", movies);
+      return Response.withData(HttpStatus.OK, "Top Movies Retrieved Successfully", movies);
     } catch (error) {
       logger.error(`An error occurred while creating user: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
