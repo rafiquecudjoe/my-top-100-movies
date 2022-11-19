@@ -13,7 +13,6 @@ export class MoviesValidator {
 
     validateCreateMovie(params: CreateMoviesDto): Promise<ResponseWithoutData> {
         return new Promise(async (resolve, reject) => {
-            console.log("testststs")
             try {
                 // joi validation
                 const joiSchema = joi.object({
@@ -29,11 +28,6 @@ export class MoviesValidator {
 
                 // check the results from joi validation
                 if (joiValidationResults) return resolve(Response.withoutData(HttpStatus.BAD_REQUEST, joiValidationResults));
-                console.log("hellooo")
-                // check if date submitted was the right format
-                const isDate = new Date(params.releaseDate)
-
-                console.log("isDate:", isDate)
 
                 // check for duplicate movies
                 const foundMovie: Movies = await this.moviesRepository.retrieveMovieByTitleAndReleaseDate(params.title, params.releaseDate);

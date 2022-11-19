@@ -1,12 +1,12 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { Movies } from '@prisma/client';
 import { ResponseWithData, ResponseWithoutData } from 'src/common/entities/response.entity';
-import logger from 'src/utils/logger';
+import logger from '../../utils/logger';
 import { UpdateMoviesDto, CreateMoviesDto } from './dto/movies.dto';
 import { MoviesRepository } from './movies.repository';
 import { MoviesValidator } from './movies.validator';
-import { Response } from 'src/common/response';
-import { Constants } from 'src/common/enums/constants.enum';
+import { Response } from '../../common/response';
+import { Constants } from '../../common/enums/constants.enum';
 
 
 @Injectable()
@@ -35,14 +35,13 @@ export class MoviesService {
 
   async retrieveAllMovies(): Promise<ResponseWithData> {
     try {
-      console.log("teststst1")
       // save movie
       const data: Movies[] = await this.moviesRepository.retrieveAllMovies();
 
       if (data.length === 0) return Response.withoutData(HttpStatus.NOT_FOUND, "No movies found");
 
       // success
-      return Response.withData(HttpStatus.CREATED, "Movies Retrieved Successfully", data);
+      return Response.withData(HttpStatus.OK, "Movies Retrieved Successfully", data);
     } catch (error) {
       logger.error(`An error occurred while creating user: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
@@ -56,7 +55,7 @@ export class MoviesService {
       if (!data) return Response.withoutData(HttpStatus.NOT_FOUND, "Movie not found");
 
       // success
-      return Response.withData(HttpStatus.CREATED, "Movies Retrieved Successfully", data);
+      return Response.withData(HttpStatus.OK, "Movie Retrieved Successfully", data);
     } catch (error) {
       logger.error(`An error occurred while creating user: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
@@ -74,7 +73,7 @@ export class MoviesService {
 
 
       // success
-      return Response.withoutData(HttpStatus.CREATED, "Movie Updated  Successfully",);
+      return Response.withoutData(HttpStatus.OK, "Movie Updated  Successfully",);
     } catch (error) {
       logger.error(`An error occurred while creating user: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
@@ -83,11 +82,15 @@ export class MoviesService {
 
   async deleteMovie(id: number): Promise<ResponseWithoutData> {
     try {
+      // check if movie exists
+      const movie = await this.moviesRepository.retrieveMovieById(id);
+      if (!movie) return Response.withoutData(HttpStatus.NOT_FOUND, "Movie not found");
+      
       // Delete Movie
       await this.moviesRepository.deleteMovie(id);
 
       // success
-      return Response.withoutData(HttpStatus.CREATED, "Movie removed successfully",);
+      return Response.withoutData(HttpStatus.OK, "Movie removed successfully",);
     } catch (error) {
       logger.error(`An error occurred while creating user: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);

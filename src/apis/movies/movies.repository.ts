@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import prisma from '../../common/prisma';
-import { CreateMoviesDto } from './dto/movies.dto';
+import { CreateMoviesDto, UpdateMoviesDto } from './dto/movies.dto';
 import { IMoviesRepository } from './interfaces/movies.interface';
 
 @Injectable()
@@ -77,7 +77,7 @@ export class MoviesRepository implements IMoviesRepository {
         });
     }
 
-    updateMovie(movieId: number, params: CreateMoviesDto): Promise<any> {
+    updateMovie(movieId: number, params: UpdateMoviesDto): Promise<any> {
         return new Promise(async (resolve, reject) => {
             try {
                 // update user
@@ -86,12 +86,7 @@ export class MoviesRepository implements IMoviesRepository {
                         id: Number(movieId),
                     },
                     data: {
-                        adult: params.adult,
-                        originalLanguage: params.originalLanguage,
-                        originalTitle: params.originalTitle,
-                        overview: params.overview,
-                        releaseDate: new Date(params.releaseDate),
-                        title: params.title,
+                        ...params,
                     },
                 })
                 // success
@@ -113,6 +108,20 @@ export class MoviesRepository implements IMoviesRepository {
                 })
                 // success
                 resolve(deletedMovie);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+
+    deleteAll(): Promise<any> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await prisma.movies.deleteMany({});
+
+                // success
+                resolve('success');
             } catch (error) {
                 reject(error);
             }

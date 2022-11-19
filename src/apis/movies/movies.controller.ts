@@ -13,7 +13,6 @@ import { ResponseWithData, ResponseWithoutData } from '../../common/entities/res
 import { MoviesService } from './movies.service';
 import { CreateMoviesDto,UpdateMoviesDto } from './dto/movies.dto';
 import { SignupDto } from '../auth/dto/auth.dto.';
-import logger from 'src/utils/logger';
 
 @ApiTags('Movies')
 @Controller('api/v1/movies')
@@ -30,7 +29,6 @@ export class MoviesController {
   @ApiConflictResponse({ description: 'Conflict: a movie with same title and release date already exist', type: ResponseWithoutData })
   @ApiInternalServerErrorResponse({ description: 'Internal server error', type: ResponseWithoutData })
   async addMovie(@Body() requestBody: CreateMoviesDto, @Res() res: Response) {
-    logger.info(requestBody)
     const response: ResponseWithData = await this.moviesService.addMovie(requestBody);
 
     if (response.data) {
@@ -53,7 +51,6 @@ export class MoviesController {
   @ApiCreatedResponse({ description: 'Movies Retrieved Successfully', type: ResponseWithData })
   @ApiInternalServerErrorResponse({ description: 'Internal server error', type: ResponseWithoutData })
   async retriveAllMovies(@Res() res: Response) {
-    console.info("testststs")
     const response: ResponseWithData = await this.moviesService.retrieveAllMovies();
 
     if (response.data) {

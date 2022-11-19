@@ -8,7 +8,7 @@ describe('ApiClientController', () => {
     let app: INestApplication;
 
     beforeAll(async () => {
-        // await new MoviesRepository().deleteAll();
+        await new MoviesRepository().deleteAll();
 
         const moduleRef = await Test.createTestingModule({
             imports: [MoviesModule],
@@ -18,164 +18,84 @@ describe('ApiClientController', () => {
         await app.init();
     });
 
+    let id : number;
+
     describe('POST api/v1/movies', () => {
-        it('checks if email was submitted', async () => {
+        it('checks if original language was submitted', async () => {
             const requestBody = {
-                email: '',
-                username: "rafiqueTest",
-                password: 'Flipper123',
-                sex: 'male',
-                fullName: "Rafiqueacudjoe"
+                adult: true,
+                originalLanguage: "",
+                title: "test",
+                overview: "Hi this is a test overview",
+                originalTitle: "hello",
+                releaseDate: "01-01-2021",
             };
 
-            const response = await supertest(app.getHttpServer()).post('/api/v1/signup').send(requestBody);
+            const response = await supertest(app.getHttpServer()).post('/api/v1/movies').send(requestBody);
 
             expect(response.status).toEqual(400);
             expect(response.body).toBeDefined();
-            expect(response.body.message).toEqual('Email is not allowed to be empty');
+            expect(response.body.message).toEqual('Original Language is not allowed to be empty');
         });
 
         it('checks if client details are generated successfully', async () => {
             const requestBody = {
-                email: 'rasgalazy5@gmail.com',
-                username: "rafiqueTest",
-                password: 'Flipper123',
-                sex: 'male',
-                fullName: "Rafiqueacudjoe"
+                adult: true,
+                originalLanguage: "en",
+                title: "testgggg",
+                overview: "Hi this is a test overview",
+                originalTitle: "hello",
+                releaseDate: "01-01-2021",
             };
 
-            const response = await supertest(app.getHttpServer()).post('/api/v1/signup').send(requestBody);
+            const response = await supertest(app.getHttpServer()).post('/api/v1/movies').send(requestBody);
 
             expect(response.status).toEqual(201);
             expect(response.body).toBeDefined();
+            id = response.body.data.id;
+         
+
         });
     });
     describe('GET api/v1/movies', () => {
-        it('checks if email was submitted', async () => {
-            const requestBody = {
-                email: '',
-                username: "rafiqueTest",
-                password: 'Flipper123',
-                sex: 'male',
-                fullName: "Rafiqueacudjoe"
-            };
+        it('checks if movies are retrieved', async () => {
 
-            const response = await supertest(app.getHttpServer()).post('/api/v1/signup').send(requestBody);
+            const response = await supertest(app.getHttpServer()).get(`/api/v1/movies/${id}`).send();
 
-            expect(response.status).toEqual(400);
+            expect(response.status).toEqual(200);
             expect(response.body).toBeDefined();
-            expect(response.body.message).toEqual('Email is not allowed to be empty');
         });
+    })
+  ;
+    describe('GET api/v1/movies', () => {
 
-        it('checks if client details are generated successfully', async () => {
-            const requestBody = {
-                email: 'rasgalazy5@gmail.com',
-                username: "rafiqueTest",
-                password: 'Flipper123',
-                sex: 'male',
-                fullName: "Rafiqueacudjoe"
-            };
+        it('checks if all movies are retrived successfully', async () => {
+         
+            const response = await supertest(app.getHttpServer()).get('/api/v1/movies').send();
 
-            const response = await supertest(app.getHttpServer()).post('/api/v1/signup').send(requestBody);
-
-            expect(response.status).toEqual(201);
+            expect(response.status).toEqual(200);
             expect(response.body).toBeDefined();
         });
     });
-    describe('POST api/v1/movies', () => {
-        it('checks if email was submitted', async () => {
+    describe('PATCH api/v1/movies/"movieId', () => {
+        it('checks if movie was patched was successful', async () => {
             const requestBody = {
-                email: '',
-                username: "rafiqueTest",
-                password: 'Flipper123',
-                sex: 'male',
-                fullName: "Rafiqueacudjoe"
+            adult:false
             };
 
-            const response = await supertest(app.getHttpServer()).post('/api/v1/signup').send(requestBody);
+            const response = await supertest(app.getHttpServer()).patch(`/api/v1/movies/${id}`).send(requestBody);
 
-            expect(response.status).toEqual(400);
-            expect(response.body).toBeDefined();
-            expect(response.body.message).toEqual('Email is not allowed to be empty');
-        });
-
-        it('checks if client details are generated successfully', async () => {
-            const requestBody = {
-                email: 'rasgalazy5@gmail.com',
-                username: "rafiqueTest",
-                password: 'Flipper123',
-                sex: 'male',
-                fullName: "Rafiqueacudjoe"
-            };
-
-            const response = await supertest(app.getHttpServer()).post('/api/v1/signup').send(requestBody);
-
-            expect(response.status).toEqual(201);
+            expect(response.status).toEqual(200);
             expect(response.body).toBeDefined();
         });
+
     });
-    describe('POST api/v1/movies', () => {
-        it('checks if email was submitted', async () => {
-            const requestBody = {
-                email: '',
-                username: "rafiqueTest",
-                password: 'Flipper123',
-                sex: 'male',
-                fullName: "Rafiqueacudjoe"
-            };
+    describe('DELETE api/v1/movies/:movieId', () => {
+        it('checks if movie was deleted', async () => {
+      
+            const response = await supertest(app.getHttpServer()).delete(`/api/v1/movies/${id}`).send();
 
-            const response = await supertest(app.getHttpServer()).post('/api/v1/signup').send(requestBody);
-
-            expect(response.status).toEqual(400);
-            expect(response.body).toBeDefined();
-            expect(response.body.message).toEqual('Email is not allowed to be empty');
-        });
-
-        it('checks if client details are generated successfully', async () => {
-            const requestBody = {
-                email: 'rasgalazy5@gmail.com',
-                username: "rafiqueTest",
-                password: 'Flipper123',
-                sex: 'male',
-                fullName: "Rafiqueacudjoe"
-            };
-
-            const response = await supertest(app.getHttpServer()).post('/api/v1/signup').send(requestBody);
-
-            expect(response.status).toEqual(201);
-            expect(response.body).toBeDefined();
-        });
-    });
-    describe('POST api/v1/movies', () => {
-        it('checks if email was submitted', async () => {
-            const requestBody = {
-                email: '',
-                username: "rafiqueTest",
-                password: 'Flipper123',
-                sex: 'male',
-                fullName: "Rafiqueacudjoe"
-            };
-
-            const response = await supertest(app.getHttpServer()).post('/api/v1/signup').send(requestBody);
-
-            expect(response.status).toEqual(400);
-            expect(response.body).toBeDefined();
-            expect(response.body.message).toEqual('Email is not allowed to be empty');
-        });
-
-        it('checks if client details are generated successfully', async () => {
-            const requestBody = {
-                email: 'rasgalazy5@gmail.com',
-                username: "rafiqueTest",
-                password: 'Flipper123',
-                sex: 'male',
-                fullName: "Rafiqueacudjoe"
-            };
-
-            const response = await supertest(app.getHttpServer()).post('/api/v1/signup').send(requestBody);
-
-            expect(response.status).toEqual(201);
-            expect(response.body).toBeDefined();
+            expect(response.status).toEqual(200);
         });
     });
 });

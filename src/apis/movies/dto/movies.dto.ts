@@ -27,7 +27,7 @@ export class CreateMoviesDto {
     })
     originalTitle: string;
     @ApiProperty({
-        type: String,
+        type: Date,
         description: 'This is a required property',
     })
     releaseDate: Date;
@@ -39,31 +39,31 @@ export class UpdateMoviesDto {
         type: Boolean,
         description: 'This is an optional property',
     })
-    adult: boolean;
+    adult?: boolean;
     @ApiProperty({
         type: String,
         description: 'This is a required property',
     })
-    originalLanguage: string;
+    originalLanguage?: string;
     @ApiPropertyOptional({
         type: String,
         description: 'This is an optional property',
     })
-    title: string;
+    title?: string;
     @ApiPropertyOptional({
         type: String,
         description: 'This is an optional property',
     })
-    overview: string;
+    overview?: string;
     @ApiPropertyOptional({
         type: String,
         description: 'This is an optional property',
     })
-    originalTitle: string;
+    originalTitle?: string;
     @ApiPropertyOptional({
-        type: String,
+        type: Date,
         description: 'This is an optional property',
     })
-    releaseDate: Date;
+    releaseDate?: Date;
 }
 
