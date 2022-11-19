@@ -32,4 +32,15 @@ model Movies {
   title            String   @map("title") @db.VarChar(500)
   dateCreated      DateTime @default(now()) @map("date_created") @db.Timestamp(3)
   dateUpdated      DateTime @updatedAt @map("date_updated") @db.Timestamp(3)
+
+  @@map("movies")
+}
+
+model TopMovies {
+  id         Int    @id @default(autoincrement())
+  userId     Int
+  topMovieId Int    @map("top_movie_id") @db.Integer
+  rank       String @map("rant") @db.VarChar(500)
+
+  @@map("top_movies")
 }
