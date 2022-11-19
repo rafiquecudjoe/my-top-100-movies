@@ -27,8 +27,8 @@ export class TopMoviesController {
   @ApiBadRequestResponse({ description: 'Bad Request: Validation error', type: ResponseWithoutData })
   @ApiConflictResponse({ description: 'Conflict: a movie with same title and release date already exist', type: ResponseWithoutData })
   @ApiInternalServerErrorResponse({ description: 'Internal server error', type: ResponseWithoutData })
-  async addMovie(@Body() requestBody: CreateTopMovieDto, @Res() res: Response) {
-    const response: ResponseWithData = await this.topMoviesService.addTopMovie(requestBody);
+  async addMovie(@Body() requestBody: CreateTopMovieDto,@Param('userId') userId:number, @Res() res: Response) {
+    const response: ResponseWithData = await this.topMoviesService.addTopMovie(requestBody,userId);
 
     if (response.data) {
       return res.status(response.status).send({

@@ -31,7 +31,7 @@ CREATE TABLE "top_movies" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "top_movie_id" INTEGER NOT NULL,
-    "rant" VARCHAR(500) NOT NULL,
+    "rank" INTEGER NOT NULL,
 
     CONSTRAINT "top_movies_pkey" PRIMARY KEY ("id")
 );

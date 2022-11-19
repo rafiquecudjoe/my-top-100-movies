@@ -1,6 +1,5 @@
 export class CreateTopMovieDto {
-    userId: number;
-    topMovieId: number;
+    movieId: number;
     rank: number;
-    favourate: boolean
+    favourite: boolean
 }
