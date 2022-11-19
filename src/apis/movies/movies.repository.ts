@@ -97,6 +97,7 @@ export class MoviesRepository implements IMoviesRepository {
         });
     }
 
+
     deleteMovie(movieId: number): Promise<any> {
         return new Promise(async (resolve, reject) => {
             try {
@@ -129,3 +130,4 @@ export class MoviesRepository implements IMoviesRepository {
     }
 
 }
+

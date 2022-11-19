@@ -49,7 +49,6 @@ describe('Testing ApiClientService', () => {
         expect(data.status).toEqual(201);
         expect(data.message).toEqual("Movie successfully added");
         id = data.data.id;
-        console.log(id)
     });
 
     it('should not add duplicate movie', async () => {
