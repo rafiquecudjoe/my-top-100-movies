@@ -27,7 +27,7 @@ export class MoviesService {
       // success
       return Response.withData(HttpStatus.CREATED, "Movie successfully added", data);
     } catch (error) {
-      logger.error(`An error occurred while creating user: ${error}`);
+      logger.error(`An error occurred adding movie: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
     }
   }
@@ -43,7 +43,7 @@ export class MoviesService {
       // success
       return Response.withData(HttpStatus.OK, "Movies Retrieved Successfully", data);
     } catch (error) {
-      logger.error(`An error occurred while creating user: ${error}`);
+      logger.error(`An error occurred while retrieving movie: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
     }
   }
@@ -57,7 +57,7 @@ export class MoviesService {
       // success
       return Response.withData(HttpStatus.OK, "Movie Retrieved Successfully", data);
     } catch (error) {
-      logger.error(`An error occurred while creating user: ${error}`);
+      logger.error(`An error occurred while retrieving movie by Id: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
     }
   }
@@ -75,7 +75,7 @@ export class MoviesService {
       // success
       return Response.withoutData(HttpStatus.OK, "Movie Updated  Successfully",);
     } catch (error) {
-      logger.error(`An error occurred while creating user: ${error}`);
+      logger.error(`An error occurred while updating movie: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
     }
   }
@@ -92,7 +92,7 @@ export class MoviesService {
       // success
       return Response.withoutData(HttpStatus.OK, "Movie removed successfully",);
     } catch (error) {
-      logger.error(`An error occurred while creating user: ${error}`);
+      logger.error(`An error occurred while deleting movie: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
     }
   }
