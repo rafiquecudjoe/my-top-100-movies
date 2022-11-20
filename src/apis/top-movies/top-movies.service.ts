@@ -29,7 +29,7 @@ export class TopMoviesService {
       // success
       return Response.withoutData(HttpStatus.CREATED, "Top Movie successfully added");
     } catch (error) {
-      logger.error(`An error occurred while creating user: ${error}`);
+      logger.error(`An error occurred while adding a top movie for a user: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
     }
   }
@@ -40,7 +40,7 @@ export class TopMoviesService {
       // save movie review
       const data: TopMovies[] = await this.topMoviesRepository.retrieveTopMoviesForAUser(userId);
 
-      if (data.length === 0) return Response.withoutData(HttpStatus.NOT_FOUND, "No movies found");
+      if (data.length === 0) return Response.withoutData(HttpStatus.NOT_FOUND, "No movies found for user");
 
       let movies = [];
 
@@ -59,7 +59,7 @@ export class TopMoviesService {
       // success
       return Response.withData(HttpStatus.OK, "Top Movies Retrieved Successfully", movies);
     } catch (error) {
-      logger.error(`An error occurred while creating user: ${error}`);
+      logger.error(`An error occurred retrieving top movies for a user: ${error}`);
       return Response.withoutData(HttpStatus.INTERNAL_SERVER_ERROR, Constants.SERVER_ERROR);
     }
   }
